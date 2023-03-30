@@ -1,8 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const axios = require('axios');
+const cors = require('cors')
+
 
 const app = express();
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(cors())
+
 const port = process.env.PORT || 5000;
 
 // Connect to MongoDB
@@ -36,7 +42,7 @@ const ExchangeIcons = mongoose.model('exchangeCollectionIcons', exchangeSchemaIc
 app.get('/fetch-exchanges', async (req, res) => {
 
   const response = await axios.get('https://rest.coinapi.io/v1/exchanges', {
-    headers: { 'X-CoinAPI-Key': 'FDAB8705-CEAA-4A23-8A5B-6CC30B8D44D9' },
+    headers: { 'X-CoinAPI-Key': '60A8E894-BCDC-4A69-9BB7-4F5B5582E2EE' },
   });
 
   const exchanges = response.data;
@@ -59,14 +65,14 @@ app.get('/fetch-exchanges', async (req, res) => {
 
   res
     .status(201)
-    .send({ message: `Successfully` })
+    .send({ exchanges })
     .end()
 });
 
 // Fetch Exchange icon and store in MongoDB
 app.get('/fetch-exchange-icon', async (req, res) => {
   const response = await axios.get('https://rest.coinapi.io/v1/exchanges/icons/32', {
-    headers: { 'X-CoinAPI-Key': 'FDAB8705-CEAA-4A23-8A5B-6CC30B8D44D9' },
+    headers: { 'X-CoinAPI-Key': '60A8E894-BCDC-4A69-9BB7-4F5B5582E2EE' },
   });
 
   const exchanges = response.data;
